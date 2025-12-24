@@ -9,6 +9,11 @@ window.onload = function() {
     const blessings = document.getElementById('blessings');
     const merryText = document.getElementById('merry-text');
     
+    // 背景音乐控制
+    const bgMusic = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicBtn');
+    let isMusicPlaying = false;
+    
     // 设置Canvas尺寸函数
     function setCanvasSize() {
         const container = document.querySelector('.tree-container');
@@ -268,4 +273,30 @@ function createBlessing(texts) {
         console.error('Blessings container not found!');
     }
 }
+    
+    // 音乐控制功能
+    function toggleMusic() {
+        if (isMusicPlaying) {
+            bgMusic.pause();
+            musicBtn.classList.add('paused');
+        } else {
+            bgMusic.play().catch(error => {
+                console.log('音乐播放失败:', error);
+            });
+            musicBtn.classList.remove('paused');
+        }
+        isMusicPlaying = !isMusicPlaying;
+    }
+    
+    // 音乐按钮点击事件
+    musicBtn.addEventListener('click', toggleMusic);
+    
+    // 尝试自动播放音乐（需要用户交互后才能正常播放）
+    document.addEventListener('click', function autoPlayMusic() {
+        bgMusic.play().catch(error => {
+            console.log('自动播放失败，需要用户交互:', error);
+        });
+        // 移除事件监听，只尝试一次
+        document.removeEventListener('click', autoPlayMusic);
+    }, { once: true });
 }
