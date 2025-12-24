@@ -14,6 +14,13 @@ window.onload = function() {
     const musicBtn = document.getElementById('musicBtn');
     let isMusicPlaying = false;
     
+    // 雪花效果
+    let snowflakes = [];
+    const maxSnowflakes = 100;
+    
+    // 烟花效果
+    let fireworks = [];
+    
     // 设置Canvas尺寸函数
     function setCanvasSize() {
         const container = document.querySelector('.tree-container');
@@ -299,4 +306,127 @@ function createBlessing(texts) {
         // 移除事件监听，只尝试一次
         document.removeEventListener('click', autoPlayMusic);
     }, { once: true });
+    
+    // 雪花效果函数
+    function createSnowflake() {
+        const snowflake = document.createElement('div');
+        snowflake.className = 'snowflake';
+        
+        // 随机大小（2-6px）
+        const size = Math.random() * 4 + 2;
+        snowflake.style.width = size + 'px';
+        snowflake.style.height = size + 'px';
+        
+        // 随机初始位置
+        snowflake.style.left = Math.random() * window.innerWidth + 'px';
+        snowflake.style.top = '-10px';
+        
+        // 随机动画时长（5-15秒）
+        const duration = Math.random() * 10 + 5;
+        snowflake.style.animation = `fall ${duration}s linear infinite`;
+        
+        // 随机不透明度
+        snowflake.style.opacity = Math.random() * 0.8 + 0.2;
+        
+        document.body.appendChild(snowflake);
+        
+        // 动画结束后移除
+        snowflake.addEventListener('animationend', () => {
+            snowflake.remove();
+        });
+    }
+    
+    // 开始雪花效果
+    function startSnowfall() {
+        // 初始创建一批雪花
+        for (let i = 0; i < maxSnowflakes; i++) {
+            setTimeout(createSnowflake, i * 100);
+        }
+        
+        // 定期创建新雪花
+        setInterval(() => {
+            if (document.querySelectorAll('.snowflake').length < maxSnowflakes) {
+                createSnowflake();
+            }
+        }, 500);
+    }
+    
+    // 点击进入后开始雪花效果
+    entryButton.addEventListener('click', function() {
+        setTimeout(startSnowfall, 1000);
+        // 同时开始烟花效果
+        setTimeout(startFireworks, 2000);
+    }, { once: true });
+    
+    // 烟花效果函数
+    function createFirework() {
+        // 创建烟花容器
+        const container = document.createElement('div');
+        container.className = 'firework-container';
+        document.body.appendChild(container);
+        
+        // 随机颜色
+        const colors = ['#ff0000', '#ff7f00', '#ffff00', '#00ff00', '#00ffff', '#0000ff', '#8b00ff'];
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        
+        // 随机位置（屏幕两侧）
+        const x = Math.random() < 0.5 ? Math.random() * window.innerWidth * 0.3 : window.innerWidth * 0.7 + Math.random() * window.innerWidth * 0.3;
+        const y = Math.random() * window.innerHeight * 0.5 + window.innerHeight * 0.2;
+        
+        // 创建烟花上升阶段
+        const firework = document.createElement('div');
+        firework.className = 'firework';
+        firework.style.left = x + 'px';
+        firework.style.top = window.innerHeight + 'px';
+        firework.style.background = randomColor;
+        firework.style.animation = 'firework-ascend 1s linear forwards';
+        container.appendChild(firework);
+        
+        // 上升动画结束后爆炸
+        setTimeout(() => {
+            // 移除上升的烟花
+            firework.remove();
+            
+            // 创建爆炸粒子
+            const particleCount = 50;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'firework-particle';
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                particle.style.background = randomColor;
+                
+                // 随机角度和距离
+                const angle = (i / particleCount) * Math.PI * 2;
+                const distance = Math.random() * 150 + 80;
+                const targetX = Math.cos(angle) * distance;
+                const targetY = Math.sin(angle) * distance;
+                
+                // 设置CSS变量和动画
+                particle.style.setProperty('--target-x', targetX + 'px');
+                particle.style.setProperty('--target-y', targetY + 'px');
+                particle.style.animation = 'firework-particle-burst 1.5s ease-out forwards';
+                
+                container.appendChild(particle);
+            }
+            
+            // 移除容器
+            setTimeout(() => {
+                container.remove();
+            }, 2000);
+        }, 1000);
+    }
+    
+    // 开始烟花效果
+    function startFireworks() {
+        // 初始创建一批烟花
+        for (let i = 0; i < 5; i++) {
+            setTimeout(createFirework, i * 1000);
+        }
+        
+        // 定期创建新烟花
+        setInterval(() => {
+            createFirework();
+        }, 2000);
+    }
 }
