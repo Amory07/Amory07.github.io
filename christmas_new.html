@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merry Christmas</title>
+    <link rel="stylesheet" href="christmas_new.css">
+</head>
+<body>
+    <!-- 点击进入页面 -->
+    <div class="entry-page" id="entryPage">
+        <div class="entry-button" id="entry-button">点击进入</div>
+    </div>
+
+    <!-- 主页面 -->
+    <div class="main-page" id="mainPage">
+        <!-- 背景 -->
+        <div class="background"></div>
+        
+        <!-- 圣诞树容器 -->
+        <div class="tree-container">
+            <!-- Canvas用于绘制动画 -->
+            <canvas id="treeCanvas" width="800" height="800" style="width: 100%; height: auto; max-width: 800px;"></canvas>
+            
+            <!-- 最终圣诞树 -->
+            <div class="final-tree" id="final-tree">
+                <!-- 树顶星星 -->
+                <div class="star">★</div>
+                
+                <!-- 树冠层 -->
+                <div class="tree-top">
+                    <div class="leaf-line" style="top: 30px; left: 0; height: 40px; transform: rotate(-20deg);"></div>
+                    <div class="leaf-line" style="top: 40px; left: 30px; height: 50px; transform: rotate(10deg);"></div>
+                    <div class="leaf-line" style="top: 35px; left: 60px; height: 45px; transform: rotate(25deg);"></div>
+                    <div class="leaf-line" style="top: 45px; left: 90px; height: 40px; transform: rotate(-15deg);"></div>
+                    <div class="leaf-line" style="top: 50px; left: 120px; height: 35px; transform: rotate(5deg);"></div>
+                </div>
+                <div class="tree-middle">
+                    <div class="leaf-line" style="top: 40px; left: 0; height: 60px; transform: rotate(-25deg);"></div>
+                    <div class="leaf-line" style="top: 50px; left: 40px; height: 70px; transform: rotate(15deg);"></div>
+                    <div class="leaf-line" style="top: 45px; left: 80px; height: 65px; transform: rotate(30deg);"></div>
+                    <div class="leaf-line" style="top: 60px; left: 120px; height: 60px; transform: rotate(-20deg);"></div>
+                    <div class="leaf-line" style="top: 65px; left: 160px; height: 55px; transform: rotate(10deg);"></div>
+                    <div class="leaf-line" style="top: 70px; left: 200px; height: 50px; transform: rotate(-10deg);"></div>
+                </div>
+                <div class="tree-bottom">
+                    <div class="leaf-line" style="top: 50px; left: 0; height: 80px; transform: rotate(-30deg);"></div>
+                    <div class="leaf-line" style="top: 60px; left: 50px; height: 90px; transform: rotate(20deg);"></div>
+                    <div class="leaf-line" style="top: 55px; left: 100px; height: 85px; transform: rotate(35deg);"></div>
+                    <div class="leaf-line" style="top: 70px; left: 150px; height: 80px; transform: rotate(-25deg);"></div>
+                    <div class="leaf-line" style="top: 75px; left: 200px; height: 75px; transform: rotate(15deg);"></div>
+                    <div class="leaf-line" style="top: 80px; left: 250px; height: 70px; transform: rotate(-20deg);"></div>
+                    <div class="leaf-line" style="top: 85px; left: 300px; height: 65px; transform: rotate(10deg);"></div>
+                </div>
+                
+                <!-- 树干 -->
+                <div class="tree-trunk"></div>
+                
+                <!-- 装饰球 -->
+                <div class="ornament red" style="top: 20%; left: 55%;"></div>
+                <div class="ornament green" style="top: 25%; left: 40%;"></div>
+                <div class="ornament orange" style="top: 35%; left: 60%;"></div>
+                <div class="ornament yellow" style="top: 40%; left: 35%;"></div>
+                <div class="ornament purple" style="top: 45%; left: 50%;"></div>
+                <div class="ornament pink" style="top: 55%; left: 65%;"></div>
+                <div class="ornament blue" style="top: 60%; left: 40%;"></div>
+                <div class="ornament green" style="top: 65%; left: 55%;"></div>
+                <div class="ornament orange" style="top: 75%; left: 45%;"></div>
+                <div class="ornament red" style="top: 80%; left: 60%;"></div>
+                
+                <!-- 拐杖糖 -->
+                <div class="candy-cane" style="top: 30%; left: 65%;"></div>
+                <div class="candy-cane" style="top: 50%; left: 30%;"></div>
+                
+                <!-- 袜子 -->
+                <div class="stocking" style="top: 45%; left: 70%;"></div>
+                
+                <!-- 环绕彩带 -->
+            <div class="ribbon-container">
+                <!-- 红色彩带 - 顶部环绕 -->
+                <svg class="ribbon-svg ribbon-1" viewBox="0 0 800 800" width="800" height="800">
+                    <defs>
+                        <linearGradient id="ribbonGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#f44336;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#e91e63;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#9c27b0;stop-opacity:1" />
+                        </linearGradient>
+                        <linearGradient id="shimmer1" x1="0%" y1="0%" x2="200%" y2="0%">
+                            <stop offset="0%" style="stop-color:rgba(255,255,255,0);stop-opacity:0" />
+                            <stop offset="50%" style="stop-color:rgba(255,255,255,0.6);stop-opacity:0.6" />
+                            <stop offset="100%" style="stop-color:rgba(255,255,255,0);stop-opacity:0" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M250,200 C300,180 400,170 450,180 C500,190 550,200 600,220" 
+                          fill="none" stroke="url(#ribbonGradient1)" stroke-width="8" stroke-linecap="round" opacity="0.8" />
+                    <path d="M250,200 C300,180 400,170 450,180 C500,190 550,200 600,220" 
+                          fill="none" stroke="url(#shimmer1)" stroke-width="2" opacity="0.8" />
+                </svg>
+                
+                <!-- 金色彩带 - 上部环绕 -->
+                <svg class="ribbon-svg ribbon-2" viewBox="0 0 800 800" width="800" height="800">
+                    <defs>
+                        <linearGradient id="ribbonGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#ffeb3b;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#ff9800;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#f57c00;stop-opacity:1" />
+                        </linearGradient>
+                        <linearGradient id="shimmer2" x1="0%" y1="0%" x2="200%" y2="0%">
+                            <stop offset="0%" style="stop-color:rgba(255,255,255,0);stop-opacity:0" />
+                            <stop offset="50%" style="stop-color:rgba(255,255,255,0.6);stop-opacity:0.6" />
+                            <stop offset="100%" style="stop-color:rgba(255,255,255,0);stop-opacity:0" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M220,300 C280,280 380,270 450,280 C520,290 600,310 650,330" 
+                          fill="none" stroke="url(#ribbonGradient2)" stroke-width="8" stroke-linecap="round" opacity="0.8" />
+                    <path d="M220,300 C280,280 380,270 450,280 C520,290 600,310 650,330" 
+                          fill="none" stroke="url(#shimmer2)" stroke-width="2" opacity="0.8" />
+                </svg>
+                
+                <!-- 绿色彩带 - 中部环绕 -->
+                <svg class="ribbon-svg ribbon-3" viewBox="0 0 800 800" width="800" height="800">
+                    <defs>
+                        <linearGradient id="ribbonGradient3" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#4caf50;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#8bc34a;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#cddc39;stop-opacity:1" />
+                        </linearGradient>
+                        <linearGradient id="shimmer3" x1="0%" y1="0%" x2="200%" y2="0%">
+                            <stop offset="0%" style="stop-color:rgba(255,255,255,0);stop-opacity:0" />
+                            <stop offset="50%" style="stop-color:rgba(255,255,255,0.6);stop-opacity:0.6" />
+                            <stop offset="100%" style="stop-color:rgba(255,255,255,0);stop-opacity:0" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M200,400 C270,380 370,370 450,380 C530,390 620,410 680,440" 
+                          fill="none" stroke="url(#ribbonGradient3)" stroke-width="8" stroke-linecap="round" opacity="0.8" />
+                    <path d="M200,400 C270,380 370,370 450,380 C530,390 620,410 680,440" 
+                          fill="none" stroke="url(#shimmer3)" stroke-width="2" opacity="0.8" />
+                </svg>
+                
+                <!-- 蓝色彩带 - 下部环绕 -->
+                <svg class="ribbon-svg ribbon-4" viewBox="0 0 800 800" width="800" height="800">
+                    <defs>
+                        <linearGradient id="ribbonGradient4" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#2196f3;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#03a9f4;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#00bcd4;stop-opacity:1" />
+                        </linearGradient>
+                        <linearGradient id="shimmer4" x1="0%" y1="0%" x2="200%" y2="0%">
+                            <stop offset="0%" style="stop-color:rgba(255,255,255,0);stop-opacity:0" />
+                            <stop offset="50%" style="stop-color:rgba(255,255,255,0.6);stop-opacity:0.6" />
+                            <stop offset="100%" style="stop-color:rgba(255,255,255,0);stop-opacity:0" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M230,500 C300,480 400,470 450,480 C500,490 580,510 630,530" 
+                          fill="none" stroke="url(#ribbonGradient4)" stroke-width="8" stroke-linecap="round" opacity="0.8" />
+                    <path d="M230,500 C300,480 400,470 450,480 C500,490 580,510 630,530" 
+                          fill="none" stroke="url(#shimmer4)" stroke-width="2" opacity="0.8" />
+                </svg>
+            </div>
+            
+            <!-- 螺旋装饰 -->
+            <div class="spirals">
+                <div class="spiral"></div>
+                    <div class="spiral"></div>
+                    <div class="spiral"></div>
+                </div>
+                
+                <!-- 礼物盒 -->
+                <div class="gift gift-1"></div>
+                <div class="gift gift-2"></div>
+            </div>
+            
+            <!-- 圣诞祝福 -->
+            <div class="blessings" id="blessings">
+                <div class="blessing">Merry Christmas</div>
+                <div class="blessing">圣诞快乐</div>
+                <div class="blessing">Happy New Year</div>
+                <div class="blessing">新年快乐</div>
+                <div class="blessing">平安喜乐</div>
+                <div class="blessing">心想事成</div>
+            </div>
+        </div>
+        
+        <!-- Merry Christmas文字 -->
+        <div class="merry-text" id="merry-text">Merry Christmas</div>
+    </div>
+
+    <script src="christmas_new.js"></script>
+</body>
+</html>

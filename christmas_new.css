@@ -1,0 +1,783 @@
+/* 全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    overflow: hidden;
+    background-color: #1a237e;
+}
+
+/* 点击进入页面 */
+.entry-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a237e 0%, #3949ab 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.entry-button {
+    padding: 20px 40px;
+    font-size: 28px;
+    color: white;
+    background: rgba(255, 255, 255, 0.2);
+    border: 3px solid white;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.entry-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+}
+
+/* 主页面 */
+.main-page {
+    display: none;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* 背景 */
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center, #3949ab 0%, #1a237e 100%);
+}
+
+/* 背景装饰 */
+.background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 90px 40px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 130px 80px, #fff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 160px 120px, #fff, rgba(0,0,0,0));
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    animation: sparkle 3s infinite alternate;
+    opacity: 0.5;
+}
+
+@keyframes sparkle {
+    0% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* 圣诞树容器 */
+.tree-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 800px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Canvas */
+#treeCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+/* 最终圣诞树 */
+.final-tree {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 550px;
+    opacity: 0;
+    z-index: 1;
+}
+
+/* 树顶星星 */
+.star {
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ffeb3b;
+    font-size: 60px;
+    text-shadow: 0 0 20px #ffeb3b, 0 0 40px #ffeb3b;
+    animation: star-twinkle 2s infinite alternate;
+}
+
+@keyframes star-twinkle {
+    0% { transform: translateX(-50%) scale(1); opacity: 0.8; }
+    100% { transform: translateX(-50%) scale(1.1); opacity: 1; }
+}
+
+/* 树冠层 */
+.tree-top, .tree-middle, .tree-bottom {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #1e88e5 0%, #0d47a1 100%);
+    box-shadow: 
+        0 0 20px rgba(30, 136, 229, 0.5),
+        inset 0 0 30px rgba(255, 255, 255, 0.2);
+}
+/* 树顶 */
+.tree-top {
+    width: 0;
+    height: 0;
+    border-left: 80px solid transparent;
+    border-right: 80px solid transparent;
+    border-bottom: 120px solid #1e88e5;
+    top: 0;
+    transform: translateX(-50%);
+    left: 50%;
+    position: absolute;
+    box-shadow: inset 0 10px 20px rgba(255, 255, 255, 0.2);
+}
+
+.tree-top::before, .tree-top::after, 
+.tree-middle::before, .tree-middle::after, 
+.tree-bottom::before, .tree-bottom::after {
+    content: '';
+    position: absolute;
+    border-radius: 50% 50% 0 0;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* 树叶纹理细节 */
+.tree-top::before {
+    width: 160px;
+    height: 60px;
+    top: 40px;
+    left: -80px;
+    transform: rotate(-5deg);
+    background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 60%, transparent 100%);
+}
+
+.tree-top::after {
+    width: 140px;
+    height: 50px;
+    top: 60px;
+    left: -70px;
+    transform: rotate(5deg);
+}
+/* 树中 */
+.tree-middle {
+    width: 0;
+    height: 0;
+    border-left: 120px solid transparent;
+    border-right: 120px solid transparent;
+    border-bottom: 180px solid #1976d2;
+    top: 90px;
+    transform: translateX(-50%);
+    left: 50%;
+    position: absolute;
+    box-shadow: inset 0 15px 25px rgba(255, 255, 255, 0.2);
+}
+
+.tree-middle::before {
+    width: 240px;
+    height: 90px;
+    top: 60px;
+    left: -120px;
+    transform: rotate(-5deg);
+}
+
+.tree-middle::after {
+    width: 220px;
+    height: 80px;
+    top: 90px;
+    left: -110px;
+    transform: rotate(5deg);
+}
+/* 树底 */
+.tree-bottom {
+    width: 0;
+    height: 0;
+    border-left: 160px solid transparent;
+    border-right: 160px solid transparent;
+    border-bottom: 240px solid #1565c0;
+    top: 180px;
+    transform: translateX(-50%);
+    left: 50%;
+    position: absolute;
+    box-shadow: inset 0 20px 30px rgba(255, 255, 255, 0.2);
+}
+
+.tree-bottom::before {
+    width: 320px;
+    height: 120px;
+    top: 80px;
+    left: -160px;
+    transform: rotate(-5deg);
+}
+
+.tree-bottom::after {
+    width: 300px;
+    height: 110px;
+    top: 120px;
+    left: -150px;
+    transform: rotate(5deg);
+}
+
+/* 树叶线条装饰 */
+.tree-top .leaf-line, .tree-middle .leaf-line, .tree-bottom .leaf-line {
+    position: absolute;
+    width: 3px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.2));
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    border-radius: 2px;
+    transform-origin: top;
+}
+
+/* 为每个树层添加树叶线条 */
+.tree-top {
+    /* 添加额外的span元素用于线条 */
+}
+
+.tree-middle {
+    /* 添加额外的span元素用于线条 */
+}
+
+.tree-bottom {
+    /* 添加额外的span元素用于线条 */
+}
+
+/* 树干 */
+.tree-trunk {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90px;
+    height: 150px;
+    background: linear-gradient(135deg, #795548 0%, #5d4037 100%);
+    box-shadow: 
+        inset 0 0 30px rgba(0, 0, 0, 0.5),
+        0 8px 20px rgba(0, 0, 0, 0.4),
+        0 -5px 10px rgba(255, 255, 255, 0.1) inset;
+    top: 370px;
+    z-index: 1;
+    border-radius: 0 0 10px 10px;
+    /* 更真实的树干形状：上窄下宽，有自然曲线变化 */
+    clip-path: polygon(
+        42% 0%,
+        58% 0%,
+        65% 8%,
+        70% 20%,
+        72% 35%,
+        75% 50%,
+        78% 65%,
+        80% 80%,
+        82% 100%,
+        18% 100%,
+        20% 80%,
+        22% 65%,
+        25% 50%,
+        28% 35%,
+        30% 20%,
+        35% 8%
+    );
+}
+
+/* 树干纹理 */
+.tree-trunk::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 5px,
+            rgba(255, 255, 255, 0.1) 5px,
+            rgba(255, 255, 255, 0.1) 7px
+        ),
+        repeating-linear-gradient(
+            180deg,
+            transparent,
+            transparent 10px,
+            rgba(0, 0, 0, 0.1) 10px,
+            rgba(0, 0, 0, 0.1) 12px
+        );
+    opacity: 0.8;
+    z-index: 1;
+}
+
+.tree-trunk::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 90%;
+    height: 90%;
+    background: 
+        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.3), transparent 40%),
+        radial-gradient(circle at 70% 80%, rgba(0, 0, 0, 0.3), transparent 40%),
+        linear-gradient(45deg, transparent 45%, rgba(255, 255, 255, 0.1) 45%, rgba(255, 255, 255, 0.1) 55%, transparent 55%);
+    border-radius: 5px 5px 10px 10px;
+    opacity: 0.7;
+}
+
+/* 装饰球 */
+.ornament {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    box-shadow: 
+        0 0 15px currentColor,
+        inset -5px -5px 10px rgba(0, 0, 0, 0.3),
+        inset 5px 5px 10px rgba(255, 255, 255, 0.5);
+    animation: ornament-float 3s infinite alternate;
+}
+
+@keyframes ornament-float {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-10px); }
+}
+
+.ornament.red { background: radial-gradient(circle at 30% 30%, #ff8a80, #d32f2f); color: #d32f2f; }
+.ornament.green { background: radial-gradient(circle at 30% 30%, #a5d6a7, #388e3c); color: #388e3c; }
+.ornament.orange { background: radial-gradient(circle at 30% 30%, #ffcc80, #f57c00); color: #f57c00; }
+.ornament.yellow { background: radial-gradient(circle at 30% 30%, #fff9c4, #fbc02d); color: #fbc02d; }
+.ornament.purple { background: radial-gradient(circle at 30% 30%, #ce93d8, #7b1fa2); color: #7b1fa2; }
+.ornament.pink { background: radial-gradient(circle at 30% 30%, #f8bbd0, #c2185b); color: #c2185b; }
+.ornament.blue { background: radial-gradient(circle at 30% 30%, #bbdefb, #1976d2); color: #1976d2; }
+
+/* 拐杖糖 */
+.candy-cane {
+    position: absolute;
+    width: 40px;
+    height: 15px;
+    background: repeating-linear-gradient(
+        45deg,
+        #ffffff,
+        #ffffff 5px,
+        #ff5252 5px,
+        #ff5252 10px
+    );
+    border-radius: 8px;
+    transform: rotate(20deg);
+    box-shadow: 0 0 10px rgba(255, 82, 82, 0.5);
+    animation: candy-swing 2s infinite alternate;
+}
+
+@keyframes candy-swing {
+    0% { transform: rotate(20deg); }
+    100% { transform: rotate(40deg); }
+}
+
+/* 袜子 */
+.stocking {
+    position: absolute;
+    width: 35px;
+    height: 50px;
+    background: radial-gradient(circle at 50% 20%, #ffcc80, #f57c00);
+    border-radius: 20px 20px 0 0;
+    box-shadow: 
+        0 0 15px rgba(245, 124, 0, 0.5),
+        inset 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.stocking::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 25px;
+    height: 10px;
+    background: #ffffff;
+    border-radius: 5px;
+}
+
+/* 螺旋装饰 */
+.spirals {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+/* 彩带容器 */
+.ribbon-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    pointer-events: none;
+    width: 400px;
+    height: 500px;
+}
+
+/* SVG彩带基础样式 */
+.ribbon-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform-origin: center;
+    pointer-events: none;
+}
+
+.ribbon-svg path {
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* 每条彩带的差异化动画 - 自上而下环绕效果 */
+.ribbon-1 {
+    /* 顶部彩带 - 水平环绕 */
+    animation: ribbon-float 12s ease-in-out infinite, shimmer 3s linear infinite;
+    animation-delay: 0s;
+    z-index: 6;
+    transform: translate(-15%, -20%);
+}
+
+.ribbon-2 {
+    /* 上部彩带 - 水平环绕 */
+    animation: ribbon-float 13s ease-in-out infinite reverse, shimmer 3.5s linear infinite;
+    animation-delay: 1s;
+    z-index: 5;
+    transform: translate(-15%, 0%);
+}
+
+.ribbon-3 {
+    /* 中部彩带 - 水平环绕 */
+    animation: ribbon-float 14s ease-in-out infinite, shimmer 4s linear infinite;
+    animation-delay: 2s;
+    z-index: 6;
+    transform: translate(-15%, 20%);
+}
+
+.ribbon-4 {
+    /* 下部彩带 - 水平环绕 */
+    animation: ribbon-float 15s ease-in-out infinite reverse, shimmer 2.5s linear infinite;
+    animation-delay: 3s;
+    z-index: 5;
+    transform: translate(-15%, 40%);
+}
+
+/* 彩带浮动动画 - 横向环绕效果 */
+@keyframes ribbon-float {
+    0%, 100% {
+        transform: scale(0.95) rotate(0deg) translateY(0);
+        opacity: 0.7;
+    }
+    25% {
+        transform: scale(0.98) rotate(-0.5deg) translateY(-5px);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1) rotate(0.5deg) translateY(5px);
+        opacity: 0.9;
+    }
+    75% {
+        transform: scale(0.98) rotate(-0.3deg) translateY(-3px);
+        opacity: 0.8;
+    }
+}
+
+/* 微光效果 - 配合细彩带 */
+@keyframes shimmer {
+    0% {
+        stroke-dashoffset: 100;
+    }
+    100% {
+        stroke-dashoffset: 300;
+    }
+}
+
+.spiral {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 2px solid rgba(255, 235, 59, 0.5);
+    border-radius: 50%;
+    animation: spiral-rotate 10s linear infinite;
+}
+
+.spiral:nth-child(1) {
+    width: 80%;
+    height: 80%;
+    top: 10%;
+    left: 10%;
+    animation-duration: 10s;
+}
+
+.spiral:nth-child(2) {
+    width: 60%;
+    height: 60%;
+    top: 20%;
+    left: 20%;
+    animation-duration: 8s;
+    animation-direction: reverse;
+}
+
+.spiral:nth-child(3) {
+    width: 40%;
+    height: 40%;
+    top: 30%;
+    left: 30%;
+    animation-duration: 6s;
+}
+
+@keyframes spiral-rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 礼物盒 */
+.gift {
+    position: absolute;
+    bottom: -60px;
+    width: 80px;
+    height: 60px;
+    background: linear-gradient(135deg, #ffffff, #e0e0e0);
+    border-radius: 5px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.gift::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 100%;
+    background: #f44336;
+}
+
+.gift::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 100%;
+    height: 12px;
+    background: #f44336;
+}
+
+.gift-1 {
+    left: 30%;
+    background: linear-gradient(135deg, #2196f3, #1976d2);
+}
+
+.gift-1::before, .gift-1::after {
+    background: #ffeb3b;
+}
+
+.gift-2 {
+    left: 55%;
+    background: linear-gradient(135deg, #4caf50, #388e3c);
+}
+
+.gift-2::before, .gift-2::after {
+    background: #ffffff;
+}
+
+/* 祝福文字 */
+.blessings {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.blessing {
+    position: absolute;
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    animation: blessing-float 10s infinite ease-in-out;
+    white-space: nowrap;
+    z-index: 10;
+    pointer-events: none;
+}
+
+@keyframes blessing-float {
+    0% { 
+        transform: translateY(20px) rotate(-5deg);
+        opacity: 0;
+    }
+    20% { 
+        opacity: 1;
+    }
+    80% { 
+        opacity: 1;
+    }
+    100% { 
+        transform: translateY(-80px) rotate(5deg);
+        opacity: 0;
+    }
+}
+
+/* Merry Christmas文字 */
+.merry-text {
+    position: absolute;
+    top: 20px;
+    left: 40px;
+    font-size: 48px;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5);
+    transform: rotate(-10deg);
+    opacity: 0;
+    z-index: 10;
+}
+
+/* 淡入动画 */
+@keyframes fade-in {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* 绘制动画 */
+@keyframes draw {
+    0% { stroke-dashoffset: 1000; }
+    100% { stroke-dashoffset: 0; }
+}
+
+/* 响应式设计 - 手机端适配 */
+@media (max-width: 768px) {
+    /* 调整主页面容器 */
+    .main-page {
+        overflow: hidden;
+    }
+    
+    /* 调整圣诞树容器 */
+    .tree-container {
+        width: 100vw;
+        height: 100vh;
+        transform: translate(-50%, -50%) scale(0.7);
+    }
+    
+    /* 调整最终圣诞树尺寸 */
+    .final-tree {
+        width: 300px;
+        height: 450px;
+    }
+    
+    /* 调整树顶星星大小 */
+    .star {
+        font-size: 40px;
+        top: -40px;
+    }
+    
+    /* 调整树冠层尺寸 */
+    .tree-top {
+        border-left: 60px solid transparent;
+        border-right: 60px solid transparent;
+        border-bottom: 90px solid #1e88e5;
+    }
+    
+    .tree-middle {
+        border-left: 90px solid transparent;
+        border-right: 90px solid transparent;
+        border-bottom: 135px solid #1976d2;
+        top: 70px;
+    }
+    
+    .tree-bottom {
+        border-left: 120px solid transparent;
+        border-right: 120px solid transparent;
+        border-bottom: 180px solid #1565c0;
+        top: 140px;
+    }
+    
+    /* 调整树干尺寸 */
+    .tree-trunk {
+        width: 70px;
+        height: 120px;
+        top: 290px;
+    }
+    
+    /* 调整装饰元素大小 */
+    .ornament, .candy-cane, .sock, .spiral-decoration {
+        transform: scale(0.7);
+    }
+    
+    /* 调整袜子大小 */
+    .sock {
+        width: 30px;
+        height: 40px;
+    }
+    
+    /* 调整礼物大小 */
+    .gift {
+        width: 40px;
+        height: 30px;
+    }
+    
+    /* 调整祝福文字大小 */
+    .blessing {
+        font-size: 18px;
+    }
+    
+    /* 调整Merry Christmas文字 */
+    .merry-text {
+        font-size: 32px;
+        top: 10px;
+        left: 20px;
+    }
+    
+    /* 调整彩带容器 */
+    .ribbon-container {
+        width: 300px;
+        height: 400px;
+    }
+    
+    /* 调整彩带SVG大小 */
+    .ribbon-svg {
+        transform: scale(0.7);
+    }
+    
+    /* 调整进入按钮大小 */
+    .entry-button {
+        padding: 15px 30px;
+        font-size: 24px;
+    }
+}
